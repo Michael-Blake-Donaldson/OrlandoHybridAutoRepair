@@ -1,12 +1,13 @@
 :root {
-  --bg: #111317;
-  --surface: #181c22;
+  --bg: #0d1117;
+  --surface: #171d26;
   --surface-soft: #20262f;
   --text: #f5f7fb;
   --muted: #b4bcc9;
   --accent: #45d66f;
   --accent-dark: #25b450;
   --border: #2d3642;
+  --shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
   --max-width: 1120px;
 }
 
@@ -21,6 +22,21 @@ body {
   font-family: "Segoe UI", "Inter", Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  background-image:
+    radial-gradient(circle at 3% 3%, rgba(69, 214, 111, 0.08), transparent 38%),
+    radial-gradient(circle at 97% 8%, rgba(69, 214, 111, 0.06), transparent 30%);
+}
+
+body.page-ready {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 img {
@@ -63,8 +79,8 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(17, 19, 23, 0.95);
-  backdrop-filter: blur(8px);
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
 
@@ -82,6 +98,16 @@ a {
   gap: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.2px;
+}
+
+.brand-logo {
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: contain;
+  border-radius: 0.45rem;
+  border: 1px solid var(--border);
+  background: #fff;
+  box-shadow: var(--shadow);
 }
 
 .brand-badge {
@@ -111,12 +137,14 @@ a {
   border-radius: 0.35rem;
   color: var(--muted);
   font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
   color: var(--text);
   background: var(--surface);
+  transform: translateY(-1px);
 }
 
 .btn {
@@ -128,16 +156,18 @@ a {
   border-radius: 0.5rem;
   font-weight: 700;
   border: 1px solid transparent;
-  transition: 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #7de997);
   color: #08110b;
+  box-shadow: 0 8px 22px rgba(69, 214, 111, 0.35);
 }
 
 .btn-primary:hover {
-  background: #6ee58c;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(69, 214, 111, 0.4);
 }
 
 .btn-outline {
@@ -148,12 +178,13 @@ a {
 
 .btn-outline:hover {
   border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
 .hero {
   padding: 4rem 0 3rem;
   background:
-    radial-gradient(circle at 90% 0%, rgba(69, 214, 111, 0.25), transparent 28%),
+    radial-gradient(circle at 90% 0%, rgba(69, 214, 111, 0.32), transparent 30%),
     var(--bg);
 }
 
@@ -190,6 +221,16 @@ a {
   border: 1px solid var(--border);
   border-radius: 0.8rem;
   padding: 1rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover,
+.service-card:hover,
+.testimonial:hover,
+.contact-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(69, 214, 111, 0.6);
 }
 
 .hero-photo {
@@ -199,6 +240,18 @@ a {
   background:
     radial-gradient(circle at 20% 20%, rgba(69, 214, 111, 0.35), transparent 40%),
     linear-gradient(140deg, #232b36, #161b23 55%, #10141a);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 15%, rgba(255, 255, 255, 0.08) 48%, transparent 72%);
+  transform: translateX(-120%);
+  animation: sweep 5.5s ease-in-out infinite;
 }
 
 .badges {
@@ -215,6 +268,7 @@ a {
   padding: 0.7rem;
   text-align: center;
   font-weight: 700;
+  box-shadow: var(--shadow);
 }
 
 .section {
@@ -291,6 +345,15 @@ select {
   border: 1px solid var(--border);
   border-radius: 0.45rem;
   color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(69, 214, 111, 0.18);
 }
 
 textarea {
@@ -325,6 +388,40 @@ footer {
   right: 1rem;
   bottom: 1rem;
   z-index: 40;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  50% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
 }
 
 @media (max-width: 900px) {
@@ -363,5 +460,23 @@ footer {
 
   .nav-links.open {
     display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
